@@ -80,13 +80,11 @@ def create_graph(videogames):
             if i != j:
                 weight = compare_videogames(v1, v2)
                 if weight > 0:
-
                   graph[int(v1.id)][int(v2.id)] = weight
 
     return graph
 
 graph = create_graph(videogames[:100])
-print(graph)
 
 def prim_mst(graph, start_index):
     vertices = list(graph.keys())
@@ -144,15 +142,14 @@ def index():
                              print(videogame.id)
                              mst = prim_mst(graph,int(videogame.id)-1)
                              for edge in mst:
-                                recomendations.append(videogames[int(edge[1])-1])
+                               print(videogames[int(videogame.id)-1].genre)
+                               if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
+                                   recomendations.append(videogames[int(edge[1])-1])
+
 
                              for edge in mst:
                                 print(f"{edge[0]} - {edge[1]}")
                              break
-
-
-
-
 
         if(request.form.get('inputValue')):
             input_value = request.form.get('inputValue')
