@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@400;700&display=swap');
+
+
+.imagen {
+
+    padding-left: 7px;
+    padding-right: 10px;
+    padding-top: 5px;
+    width: 99%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+ .imagen img {
+     width: 95%;
+     border-radius: 15px;
+ }
+
+body{
+    font-family: 'Merriweather Sans', sans-serif;
+    background-color: #3E3971;
+
+}
+
+h1{
+    color: #CCCCCC;
+    font-size: 22px;
+}
+
+.rounded-input {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #302F3D;
+    color: #FFFFFF;
+    outline: none;
+    border: 1px solid #903BEC;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 280px;
+}
+
+.rounded-input2 {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #302F3D;
+    color: #FFFFFF;
+    outline: none;
+    border: 1px solid #903BEC;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+
+.search {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    gap:200px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.recomendations {
+    position: relative;
+    padding-left: 128px;
+}
+
+.recomendations::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 2px;
+    background-color: #4B87FF;
+    position: absolute;
+    padding-left: 128px;
+    bottom: -5px;
+
+}
+
+.recomendations-table{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Muestra cuatro columnas con igual ancho */
+    background-color: #736DAA;
+    width: 80%;
+    column-gap: 10px;
+    row-gap: 20px;
+    padding: 20px 0px 20px 100px;
+    border-radius: 20px;
+
+}
+
+
+#verdecito {
+    background-color: #89CD90;
+
+}
+
+#celestito {
+    background-color: #C9FFFF;
+
+}
+
+#naranjita {
+    background-color: #FF916E;
+
+}
+
+#amarillito {
+    background-color: #FFFFB6;
+
+}
+
+.card {
+    padding: 20px;
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.card::after {
+    content: attr(data-content);
+    min-width: 56px;
+    width: max-content;
+    height: 59px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border-radius: 25%;
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+
+
+.centradito {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cuerpo p {
+    margin-bottom: 1px;
+}
+
+.card h2 {
+    display: block;
+}
+
+.card:hover h2 {
+    display: none;
+}
+
+.card p {
+    display: none;
+}
+
+.card:hover p {
+    display: block;
+}
+
+.cuerpo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.cuerpo {
+    text-align: center;
+}
+
+.cuerpo h2 {
+    margin-top: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-height: calc(1.2em * 3);
+    line-height: 1.2em;
+}

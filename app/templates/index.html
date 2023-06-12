@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SuggestGame</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css' ) }}">
+</head>
+<body>
+
+<div class="imagen">
+    <img src="https://raw.githubusercontent.com/GabrielGomezDlc/FakeAPI/main/hero.jpg">
+</div>
+
+
+<form class="search" action="/" method="POST" onkeydown="return (event.key !== 'Enter');">
+    <div class="input">
+        <h1>Ingrese su videojuego </h1>
+        <input type="text" class="rounded-input" name="searchedGame" placeholder="{{searched_game}}" onchange="toggleInputValue(this.value)" required>
+    </div>
+
+    <div class="input">
+        <h1>Cantidad</h1>
+        <input type="text" class="rounded-input2" name="inputValue" placeholder="{{input_value}}" disabled>
+    </div>
+</form>
+
+
+<h1 class="recomendations">Recomendaciones</h1>
+
+<div class="centradito">
+    <div class="recomendations-table">
+
+        {% set counter = [1] %}
+        {% for videogame in videogames %}
+            {% if counter|last <= input_value %}
+
+            {% if counter|last % 4 ==0 %}
+
+            <div id="verdecito" class="card" data-content="#{{ counter|last }}">
+                <div class="cuerpo">
+                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                    <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">{{videogame.publisher}}</p>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% if counter|last % 4 ==1 %}
+
+            <div id="celestito" class="card" data-content="#{{ counter|last }}">
+                <div class="cuerpo">
+                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                    <p style="margin-bottom: 2px;">Platform: {{videogame.platform}}</p>
+                    <p style="margin-bottom: 2px;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">{{videogame.publisher}}</p>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% if counter|last % 4 ==2 %}
+
+            <div id="naranjita" class="card" data-content="#{{ counter|last }}">
+                <div class="cuerpo">
+                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                    <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">{{videogame.publisher}}</p>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% if counter|last % 4 ==3 %}
+
+            <div id="amarillito" class="card" data-content="#{{ counter|last }}">
+                <div class="cuerpo">
+                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                    <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">{{videogame.publisher}}</p>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% set _ = counter.append(counter|last + 1) %}
+
+            {% endif %}
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.querySelector('.search').submit();
+        }
+    });
+
+
+    function toggleInputValue(value) {
+        const inputValue = document.querySelector('.rounded-input2');
+        inputValue.disabled = value === '';
+    }
+
+
+</script>
+
+
+
+<script src="{{ url_for('static', filename='js/scripts.js' ) }}"> </script>
+</body>
+</html>
