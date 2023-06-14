@@ -39,7 +39,7 @@ videogames = []
 with open("app/vgsales.csv") as f:
     reader = csv.reader(f)
     for row in reader:
-        videogames.append(Videogame(row[0],row[1],row[2],row[3],row[4],row[5]))
+        videogames.append(Videogame(len(videogames),row[1],row[2],row[3],row[4],row[5]))
     videogames.pop(0)
 
 
@@ -84,7 +84,7 @@ def create_graph(videogames):
 
     return graph
 
-graph = create_graph(videogames[:100])
+graph = create_graph(videogames[:1500])
 
 def prim_mst(graph, start_index):
     vertices = list(graph.keys())
@@ -155,8 +155,8 @@ def index():
             input_value = request.form.get('inputValue')
         else:
             input_value=5
-        return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game)
-    return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario")
+        return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game, total_games=videogames[:1500])
+    return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario", total_games=videogames[:1500])
 
 
 if __name__=='__main__':

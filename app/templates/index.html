@@ -20,12 +20,13 @@
 <form class="search" action="/" method="POST" onkeydown="return (event.key !== 'Enter');">
     <div class="input">
         <h1>Ingrese su videojuego </h1>
-        <input type="text" class="rounded-input" name="searchedGame" placeholder="{{searched_game}}" onchange="toggleInputValue(this.value)" required>
+        <input type="text" class="rounded-input" name="searchedGame" placeholder="{{searched_game}}" onchange="toggleInputValue(this.value)" list="options" required>
     </div>
 
     <div class="input">
         <h1>Cantidad</h1>
-        <input type="text" class="rounded-input2" name="inputValue" placeholder="{{input_value}}" disabled>
+        <input type="text" id="myInput" pattern="[0-9]+" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 50) this.value = 50;" /
+               class="rounded-input2" name="inputValue" placeholder="{{input_value}}"  disabled>
     </div>
 </form>
 
@@ -46,6 +47,8 @@
                     <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
                     <p style="margin: 0;">Platform: {{videogame.platform}}</p>
                     <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+
                     <p style="margin: 0;">{{videogame.publisher}}</p>
                 </div>
             </div>
@@ -59,6 +62,8 @@
                     <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
                     <p style="margin-bottom: 2px;">Platform: {{videogame.platform}}</p>
                     <p style="margin-bottom: 2px;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+
                     <p style="margin: 0;">{{videogame.publisher}}</p>
                 </div>
             </div>
@@ -72,6 +77,8 @@
                     <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
                     <p style="margin: 0;">Platform: {{videogame.platform}}</p>
                     <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+
                     <p style="margin: 0;">{{videogame.publisher}}</p>
                 </div>
             </div>
@@ -85,6 +92,7 @@
                     <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
                     <p style="margin: 0;">Platform: {{videogame.platform}}</p>
                     <p style="margin: 0;">Year: {{videogame.year}}</p>
+                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
                     <p style="margin: 0;">{{videogame.publisher}}</p>
                 </div>
             </div>
@@ -95,6 +103,12 @@
 
             {% endif %}
         {% endfor %}
+
+        <datalist id="options">
+            {% for videogame in total_games %}
+            <option value="{{videogame.name}}">
+            {% endfor %}
+        </datalist>
 
     </div>
 </div>
