@@ -145,8 +145,8 @@ def index():
                                print(videogames[int(videogame.id)-1].genre)
                                if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
                                    recomendations.append(videogames[int(edge[1])-1])
-
-
+                                   #subGrafo = create_graph(recomendations)
+                                   #CREAR create_graph2 y dibujarlo con .name
                              for edge in mst:
                                 print(f"{edge[0]} - {edge[1]}")
                              break
