@@ -17,7 +17,7 @@
 </div>
 
 
-<form class="search" action="/" method="POST" onkeydown="return (event.key !== 'Enter');">
+<form class="search" action="/search" method="POST" onkeydown="return (event.key !== 'Enter');">
     <div class="input">
         <h1>Ingrese su videojuego </h1>
         <input type="text" class="rounded-input" name="searchedGame" placeholder="{{searched_game}}" onchange="toggleInputValue(this.value)" list="options" required>
@@ -25,7 +25,7 @@
 
     <div class="input">
         <h1>Cantidad</h1>
-        <input type="text" id="myInput" pattern="[0-9]+" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 50) this.value = 50;" /
+        <input type="text" id="myInput" pattern="[0-9]+" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(parseInt(this.value) > 50) this.value = 50;"
                class="rounded-input2" name="inputValue" placeholder="{{input_value}}"  disabled>
     </div>
 </form>
@@ -114,11 +114,18 @@
 </div>
 
 
+<h1>Graph</h1>
+<img src="{{ url_for('graph') }}" alt="Graph">
+
+
 <script>
+
+
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
             document.querySelector('.search').submit();
+
         }
     });
 
@@ -128,11 +135,56 @@
         inputValue.disabled = value === '';
     }
 
+    function drawGraph(graphData) {
+        // Crea un nuevo grafo de NetworkX.js
+        console.log("ctmr")
+
+        var graph = new graphlib.Graph();
+
+        // Agrega los nodos y las aristas al grafo
+        for (var nodeId in graphData) {
+            graph.setNode(nodeId);
+            var edges = graphData[nodeId];
+            for (var targetNodeId in edges) {
+                var weight = edges[targetNodeId];
+                graph.setEdge(nodeId, targetNodeId, { weight: weight });
+            }
+        }
+
+        // Dibuja el grafo utilizando NetworkX.js
+        var svg = d3.select('#graph-container')
+            .append('svg')
+            .attr('width', 500)
+            .attr('height', 500);
+
+        nx.draw(graph, svg);
+    }
+
+    // Obtén los datos del gráfico desde Flask
+
+    // Llama a la función para dibujar el grafo
+
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- NetworkX.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/networkx.js/1.0.0/networkx.min.js"></script>
+
+<!-- D3.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@networkx/graphlib@0.4.1/dist/graphlib.min.js"></script>
 
 
 
 <script src="{{ url_for('static', filename='js/scripts.js' ) }}"> </script>
 </body>
+
+
+
+
+
 </html>

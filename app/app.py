@@ -1,5 +1,10 @@
+import matplotlib.pyplot as plt
+import networkx as nx
 from flask import Flask, render_template, request
 import sys
+import json
+import io
+
 
 app=Flask(__name__)
 
@@ -127,7 +132,7 @@ def prim_mst(graph, start_index):
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def index():
 
 
@@ -135,7 +140,7 @@ def index():
 
         if(request.form.get('searchedGame')):
                     searched_game = request.form.get('searchedGame')
-                    print(searched_game)
+                    #print(searched_game)
                     recomendations=[]
                     for videogame in videogames:
                         if searched_game == videogame.name:
@@ -146,14 +151,15 @@ def index():
                                    recomendations.append(videogames[int(edge[1])-1])
                                    #subGrafo = create_graph(recomendations)
                                    #CREAR create_graph2 y dibujarlo con .name
-                             for edge in mst:
-                                print(f"{edge[0]} - {edge[1]}")
                              break
 
         if(request.form.get('inputValue')):
             input_value = request.form.get('inputValue')
         else:
             input_value=5
+        recomendationsGraph = create_graph(recomendations[:int(input_value)])
+
+        print(json.dumps(recomendationsGraph))
         return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game, total_games=videogames[:1500])
     return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario", total_games=videogames[:1500])
 
