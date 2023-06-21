@@ -197,3 +197,61 @@ h1{
     max-height: calc(1.2em * 3);
     line-height: 1.2em;
 }
+body {
+   background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0)), url('https://raw.githubusercontent.com/GabrielGomezDlc/FakeAPI/main/zyro-image%20(1).png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.titulo h1{
+    padding-left: 10px;
+    color: #DA70EB;
+    font-size: 100px;
+}
+
+.description h2{
+    padding-left: 10px;
+    color: #F6DBF7;
+    font-size: 30px;
+}
+
+.botones {
+    padding-top: 50px;
+    padding-right: 30px;
+    gap: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.botones .cls {
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 255px;
+    height: 55px;
+    position: relative;
+    font-weight: bold;
+    font-size: 22px;
+    color: #cccccc;
+    background: linear-gradient(180deg, #772ad0 0%, rgba(189, 151, 234, 0.104167) 89.58%, rgba(53, 0, 114, 0) 100%);
+    border: 1px solid #903bec;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 30px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.botones .cls:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.botones .cls:active {
+    transform: scale(0.9);
+}
+
+#chart-container {
+    width: 400px;
+    height: 300px;
+}
+
+
