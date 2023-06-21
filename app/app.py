@@ -142,7 +142,6 @@ def index():
                              print(videogame.id)
                              mst = prim_mst(graph,int(videogame.id)-1)
                              for edge in mst:
-                               print(videogames[int(videogame.id)-1].genre)
                                if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
                                    recomendations.append(videogames[int(edge[1])-1])
                                    #subGrafo = create_graph(recomendations)
@@ -157,6 +156,32 @@ def index():
             input_value=5
         return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game, total_games=videogames[:1500])
     return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario", total_games=videogames[:1500])
+
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html')
+
+@app.route('/graph')
+def graph():
+    # Crear un objeto Graph de NetworkX
+    graph2 = nx.Graph()
+
+    # Agregar nodos y aristas al grafo (aquí deberías agregar tus propios datos)
+    graph2.add_nodes_from([1, 2, 3])
+    graph2.add_edges_from([(1, 2), (2, 3)])
+
+    # Generar la imagen del gráfico utilizando matplotlib
+    fig, ax = plt.subplots()
+    nx.draw(graph2, with_labels=True, ax=ax)
+
+    # Convertir la imagen a bytes
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+
+    # Devolver la imagen como una respuesta HTTP
+    return Response(buffer.getvalue(), mimetype='image/png')
 
 
 if __name__=='__main__':
