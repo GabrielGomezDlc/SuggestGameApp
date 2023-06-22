@@ -141,16 +141,23 @@ def grafiqueGraph(recomendations,start):
   nx_graph = nx.Graph(graphRecomend)
 
   # Dibujar el grafo
+  #pos = nx.spring_layout(nx_graph)
+  #nx.draw(nx_graph, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')
+
+  #Retrieve the weights from the graph dictionary
+  edge_labels = {}
+  for node1, edges in graphRecomend.items():
+    for node2, weight in edges.items():
+        edge_labels[(node1, node2)] = weight
+
+  # Draw the graph
   pos = nx.spring_layout(nx_graph)
-  nx.draw(nx_graph, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')
+  nx.draw(nx_graph, pos, with_labels=True, node_color='#8b78a5', node_size=500, font_size=10, font_weight='bold', edge_color='gray', font_color='white')
 
-  # Save the graph to a temporary file
-  ##buffer = io.BytesIO()
-  ##plt.savefig(buffer, format='png')
-  ##buffer.seek(0)
+  # Draw edge labels
+  nx.draw_networkx_edge_labels(nx_graph, pos, edge_labels=edge_labels)
 
-  ##image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-  ##return image_base64  # Return the generated image as base64
+
   # Guardar la imagen en el disco
   image_path = 'app/static/img/graph.png'
   plt.savefig(image_path)
