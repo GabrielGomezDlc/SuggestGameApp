@@ -17,10 +17,15 @@
 </div>
 
 
-<form class="search" action="/search" method="POST" onkeydown="return (event.key !== 'Enter');">
+<form class="spec-search" action="/specificSearch" method="POST" onkeydown="return (event.key !== 'Enter');">
     <div class="input">
         <h1>Ingrese su videojuego </h1>
         <input type="text" class="rounded-input" name="searchedGame" placeholder="{{searched_game}}" onchange="toggleInputValue(this.value)" list="options" required>
+    </div>
+
+    <div class="input">
+        <h1>Plataforma </h1>
+        <input type="text" class="rounded-input3" name="searchedPlatform" placeholder="{{searched_platform}}" onchange="toggleInputValue(this.value)" list="options2" required>
     </div>
 
     <div class="input">
@@ -47,75 +52,81 @@
 
         {% set counter = [1] %}
         {% for videogame in videogames %}
-            {% if counter|last <= input_value %}
+        {% if counter|last <= input_value %}
 
-            {% if counter|last % 4 ==0 %}
+        {% if counter|last % 4 ==0 %}
 
-            <div id="verdecito" class="card" data-content="#{{ counter|last }}">
-                <div class="cuerpo">
-                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
-                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
-                    <p style="margin: 0;">Year: {{videogame.year}}</p>
-                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+        <div id="verdecito" class="card" data-content="#{{ counter|last }}">
+            <div class="cuerpo">
+                <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                <p style="margin: 0;">Year: {{videogame.year}}</p>
+                <p style="margin: 0;">Genre: {{videogame.genre}}</p>
 
-                    <p style="margin: 0;">{{videogame.publisher}}</p>
-                </div>
+                <p style="margin: 0;">{{videogame.publisher}}</p>
             </div>
+        </div>
 
-            {% endif %}
+        {% endif %}
 
-            {% if counter|last % 4 ==1 %}
+        {% if counter|last % 4 ==1 %}
 
-            <div id="celestito" class="card" data-content="#{{ counter|last }}">
-                <div class="cuerpo">
-                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
-                    <p style="margin-bottom: 2px;">Platform: {{videogame.platform}}</p>
-                    <p style="margin-bottom: 2px;">Year: {{videogame.year}}</p>
-                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+        <div id="celestito" class="card" data-content="#{{ counter|last }}">
+            <div class="cuerpo">
+                <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                <p style="margin-bottom: 2px;">Platform: {{videogame.platform}}</p>
+                <p style="margin-bottom: 2px;">Year: {{videogame.year}}</p>
+                <p style="margin: 0;">Genre: {{videogame.genre}}</p>
 
-                    <p style="margin: 0;">{{videogame.publisher}}</p>
-                </div>
+                <p style="margin: 0;">{{videogame.publisher}}</p>
             </div>
+        </div>
 
-            {% endif %}
+        {% endif %}
 
-            {% if counter|last % 4 ==2 %}
+        {% if counter|last % 4 ==2 %}
 
-            <div id="naranjita" class="card" data-content="#{{ counter|last }}">
-                <div class="cuerpo">
-                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
-                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
-                    <p style="margin: 0;">Year: {{videogame.year}}</p>
-                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+        <div id="naranjita" class="card" data-content="#{{ counter|last }}">
+            <div class="cuerpo">
+                <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                <p style="margin: 0;">Year: {{videogame.year}}</p>
+                <p style="margin: 0;">Genre: {{videogame.genre}}</p>
 
-                    <p style="margin: 0;">{{videogame.publisher}}</p>
-                </div>
+                <p style="margin: 0;">{{videogame.publisher}}</p>
             </div>
+        </div>
 
-            {% endif %}
+        {% endif %}
 
-            {% if counter|last % 4 ==3 %}
+        {% if counter|last % 4 ==3 %}
 
-            <div id="amarillito" class="card" data-content="#{{ counter|last }}">
-                <div class="cuerpo">
-                    <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
-                    <p style="margin: 0;">Platform: {{videogame.platform}}</p>
-                    <p style="margin: 0;">Year: {{videogame.year}}</p>
-                    <p style="margin: 0;">Genre: {{videogame.genre}}</p>
-                    <p style="margin: 0;">{{videogame.publisher}}</p>
-                </div>
+        <div id="amarillito" class="card" data-content="#{{ counter|last }}">
+            <div class="cuerpo">
+                <h2 style="text-align: center; margin-top: 0;">{{videogame.name}}</h2>
+                <p style="margin: 0;">Platform: {{videogame.platform}}</p>
+                <p style="margin: 0;">Year: {{videogame.year}}</p>
+                <p style="margin: 0;">Genre: {{videogame.genre}}</p>
+                <p style="margin: 0;">{{videogame.publisher}}</p>
             </div>
+        </div>
 
-            {% endif %}
+        {% endif %}
 
-            {% set _ = counter.append(counter|last + 1) %}
+        {% set _ = counter.append(counter|last + 1) %}
 
-            {% endif %}
+        {% endif %}
         {% endfor %}
 
         <datalist id="options">
             {% for videogame in total_games %}
             <option value="{{videogame.name}}">
+                {% endfor %}
+        </datalist>
+
+        <datalist id="options2">
+            {% for platform in total_platforms %}
+            <option value="{{platform}}">
             {% endfor %}
         </datalist>
 
@@ -138,12 +149,12 @@
                 {% set counter = [1] %}
                 <div class="scrollable">
                     <p style=" color: white">{{videogameToList.id}} - {{videogameToList.name}}</p>
-                {% for videogame in videogames %}
+                    {% for videogame in videogames %}
                     {% if counter|last <= input_value %}
-                     <p style=" color: white">{{videogame.id}} - {{videogame.name}}</p>
+                    <p style=" color: white">{{videogame.id}} - {{videogame.name}}</p>
                     {% set _ = counter.append(counter|last + 1) %}
                     {% endif %}
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -161,7 +172,7 @@
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            document.querySelector('.search').submit();
+            document.querySelector('.spec-search').submit();
 
         }
     });

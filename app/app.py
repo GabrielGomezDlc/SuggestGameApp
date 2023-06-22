@@ -4,9 +4,13 @@ from flask import Flask, render_template, request
 import sys
 import json
 import io
+import base64
+
 
 
 app=Flask(__name__)
+
+
 
 class Videogame:
         def __init__(self, id, name, platform, year, genre, publisher):
@@ -131,12 +135,46 @@ def prim_mst(graph, start_index):
 
 
 
+def grafiqueGraph(recomendations,start):
+  recomendations.append(videogames[start])
+  graphRecomend = create_graph(recomendations)
+  nx_graph = nx.Graph(graphRecomend)
+
+  # Dibujar el grafo
+  pos = nx.spring_layout(nx_graph)
+  nx.draw(nx_graph, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')
+
+  # Save the graph to a temporary file
+  ##buffer = io.BytesIO()
+  ##plt.savefig(buffer, format='png')
+  ##buffer.seek(0)
+
+  ##image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+  ##return image_base64  # Return the generated image as base64
+  # Guardar la imagen en el disco
+  image_path = 'app/static/img/graph.png'
+  plt.savefig(image_path)
+
+  plt.close()
+
+  # Leer la imagen guardada y convertirla a base64
+  with open(image_path, 'rb') as f:
+    image_base64 = base64.b64encode(f.read()).decode('utf-8')
+
+  return image_base64 # Devolver la ruta de la imagen guardada
+
+
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
 
 
     if request.method == 'POST':
+        if(request.form.get('inputValue')):
+            input_value = request.form.get('inputValue')
+        else:
+            input_value=5
 
         if(request.form.get('searchedGame')):
                     searched_game = request.form.get('searchedGame')
@@ -144,32 +182,74 @@ def index():
                     recomendations=[]
                     for videogame in videogames:
                         if searched_game == videogame.name:
-                             print(videogame.id)
+                             videogameToList= videogame
                              mst = prim_mst(graph,int(videogame.id)-1)
                              for edge in mst:
                                if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
                                    recomendations.append(videogames[int(edge[1])-1])
-                                   #subGrafo = create_graph(recomendations)
-                                   #CREAR create_graph2 y dibujarlo con .name
+                             image_base64 = grafiqueGraph(recomendations[:int(input_value)],int(videogame.id)-1)
+
+
                              break
 
+
+
+        return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game, total_games=videogames[:1500], graph_image=image_base64, videogameToList= videogameToList)
+    return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario", total_games=videogames[:1500])
+
+
+
+@app.route('/specificSearch', methods=['GET', 'POST'])
+def specificSearch():
+
+
+    total_platforms = []
+
+    for videogame in videogames[:1500]:
+        if videogame.platform not in total_platforms:
+            total_platforms.append(videogame.platform)
+
+    if request.method == 'POST':
         if(request.form.get('inputValue')):
             input_value = request.form.get('inputValue')
         else:
             input_value=5
-        recomendationsGraph = create_graph(recomendations[:int(input_value)])
 
-        print(json.dumps(recomendationsGraph))
-        return render_template('index.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game, total_games=videogames[:1500])
-    return render_template('index.html',videogames=videogames,input_value=5,searched_game="Mario", total_games=videogames[:1500])
+        if(request.form.get('searchedGame')):
+                    searched_game = request.form.get('searchedGame')
+                    #print(searched_game)
+                    recomendations=[]
+                    for videogame in videogames:
+                        if searched_game == videogame.name:
+                          videogameToList= videogame
+                          mst = prim_mst(graph,int(videogame.id)-1)
+
+                          if request.form.get('searchedPlatform'):
+                                searched_platform = request.form.get('searchedPlatform')
+                          else:
+                                searched_platform = videogame.platform
+
+                          for edge in mst:
+                            if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
+                                if videogames[int(edge[1])-1].platform == searched_platform:
+                                    recomendations.append(videogames[int(edge[1])-1])
+                          image_base64 = grafiqueGraph(recomendations[:int(input_value)],int(videogame.id)-1)
 
 
-@app.route('/home', methods=['GET', 'POST'])
+                          break
+
+
+
+        return render_template('specificSearch.html', videogames=recomendations, input_value=int(input_value), searched_game=searched_game,searched_platform=searched_platform, total_games=videogames[:1500], graph_image=image_base64, total_platforms= total_platforms, videogameToList= videogameToList)
+    return render_template('specificSearch.html',videogames=videogames,input_value=5,searched_game="Mario",searched_platform="Wii", total_games=videogames[:1500],total_platforms= total_platforms)
+
+
+@app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template('home.html')
 
 @app.route('/graph')
-def graph():
+def draw_graph():
     # Crear un objeto Graph de NetworkX
     graph2 = nx.Graph()
 
@@ -191,6 +271,6 @@ def graph():
 
 
 if __name__=='__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, threaded=True)
 
 
