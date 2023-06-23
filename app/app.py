@@ -5,7 +5,8 @@ import sys
 import json
 import io
 import base64
-
+import matplotlib
+matplotlib.use('Agg')
 
 
 app=Flask(__name__)
@@ -194,7 +195,9 @@ def index():
                              for edge in mst:
                                if videogames[int(videogame.id)-1].genre==videogames[int(edge[1])-1].genre:
                                    recomendations.append(videogames[int(edge[1])-1])
-                             image_base64 = grafiqueGraph(recomendations[:int(input_value)],int(videogame.id)-1)
+
+                             with app.app_context():
+                                image_base64 = grafiqueGraph(recomendations[:int(input_value)],int(videogame.id)-1)
 
 
                              break
